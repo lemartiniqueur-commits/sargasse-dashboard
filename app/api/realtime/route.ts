@@ -37,7 +37,7 @@ export interface AggregatedRealtimeResponse {
 export const dynamic = "force-dynamic";
 
 // Cache de 15 minutes pour les données agrégées
-export const revalidate = 900;
+export const revalidate = 0;
 
 export async function GET() {
   try {
