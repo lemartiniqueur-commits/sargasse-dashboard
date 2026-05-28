@@ -126,7 +126,7 @@ export function NoaaDataTable() {
                   </span>
                 </td>
                 <td className="px-5 py-3">
-Add components/noaa-data-table.tsx                </td>
+              </td>
               </tr>
             ))}
           </tbody>
