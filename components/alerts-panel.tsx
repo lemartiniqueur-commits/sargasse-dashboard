@@ -121,7 +121,6 @@ export function AlertsPanel() {
                   <span className="text-[13px] font-medium text-zinc-200">
                     {alert.commune}
                   </span>
-Add components/alerts-panel.tsx
                 <p className="text-[12px] leading-relaxed text-zinc-400">
                   {alert.message}
                 </p>
