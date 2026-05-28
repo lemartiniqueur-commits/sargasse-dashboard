@@ -2,7 +2,7 @@
   "name": "sargasse-monitor",
   "version": "2.4.0",
   "private": true,
-  "description": "Tableau de bord de monitoring environnemental temps réel – sargasses & météo marine – Martinique",
+  "description": "Tableau de bord de monitoring environnemental temps r\u00e9el \u2014 sargasses & m\u00e9t\u00e9o marine Martinique",
   "author": "Sargasse Monitor Team",
   "license": "MIT",
   "engines": {
@@ -14,8 +14,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
@@ -25,20 +24,12 @@
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.6",
-    "@types/node": "^22.10.5",
-    "@types/react": "^19.0.7",
-    "@types/react-dom": "^19.0.3",
-    "eslint": "^9.17.0",
-    "eslint-config-next": "^15.1.6",
-    "postcss": "^8.4.49",
-    "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.9",
-    "tailwindcss": "^4.0.6",
-    "typescript": "^5.7.2"
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
   }
 }
