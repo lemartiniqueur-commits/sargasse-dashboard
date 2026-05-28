@@ -60,7 +60,7 @@ export const MOCK = {
       unit: "/100",
       trend: "+8%",
       trendDirection: "up" as const,
-      status: "high" as const,
+      status: "alert" as const,
     },
     seaTemp: {
       value: 28.4,
