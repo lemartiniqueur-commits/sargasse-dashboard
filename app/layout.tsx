@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Sargasse Monitor — Martinique",
-  description: "Tableau de bord de monitoring environnemental temps réel pour le suivi des sargasses et de la météo marine en Martinique.",
+  title: "Sargasse Monitor \u2014 Martinique",
+  description:
+    "Tableau de bord de monitoring environnemental temps r\u00e9el pour le suivi des sargasses et de la m\u00e9t\u00e9o marine en Martinique.",
 };
 
 export default function RootLayout({
@@ -23,10 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-bg font-sans antialiased">
-        {children}
-      </body>
+    <html lang="fr" className="dark">
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
