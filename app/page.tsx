@@ -62,7 +62,8 @@ export default function DashboardPage() {
               <CommuneStatus />
             </ErrorBoundary>
           </section>
-Add app/page.tsx - main dashboard page          {/* NOAA data table */}
+
+          {/* NOAA data table */}
           <section className="mb-8">
             <ErrorBoundary fallbackLabel="Impossible de charger les données NOAA.">
               <NoaaDataTable />
@@ -72,7 +73,8 @@ Add app/page.tsx - main dashboard page          {/* NOAA data table */}
           {/* Footer note */}
           <footer className="border-t border-border pt-4">
             <p className="font-mono text-[10px] text-zinc-600">
-              Données affichées: mock (simulation) · Sources réelles: NOAA USF Optical Marine Imagery, Open-Meteo Marine API, CMEMS HYCOM
+              Données affichées: mock (simulation) · Sources réelles: NOAA USF
+              Optical Marine Imagery, Open-Meteo Marine API, CMEMS HYCOM
             </p>
           </footer>
         </div>
