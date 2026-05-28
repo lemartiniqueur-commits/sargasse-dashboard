@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         <div className="flex items-start gap-3 rounded-[6px] border border-critical/30 bg-critical-muted/30 p-4">
           <WarningCircle
             size={20}
-Add components/error-boundary.tsx            className="mt-0.5 shrink-0 text-critical"
+              className="mt-0.5 shrink-0 text-critical"
           />
           <div>
             <div className="font-mono text-[10px] uppercase tracking-widest text-critical">
