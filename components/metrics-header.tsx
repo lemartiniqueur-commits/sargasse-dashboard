@@ -87,7 +87,7 @@ export function MetricsHeader() {
               {MOCK.lastUpdatedDisplay}
             </div>
           </div>
-Add components/metrics-header.tsx      </div>
+      </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <MetricCard
