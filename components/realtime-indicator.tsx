@@ -188,8 +188,8 @@ export function RealtimeIndicator({ className = "" }: RealtimeIndicatorProps) {
             />
             <defs>
               <linearGradient id="riskGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" className={riskLevel === "low" ? "stop-emerald-500" : riskLevel === "moderate" ? "stop-yellow-500" : riskLevel === "high" ? "stop-orange-500" : "stop-red-600"} style={{ stopColor: riskLevel === "low" ? "#10b981" : riskLevel === "moderate" ? "#eab308" : riskLevel === "high" ? "#f97316" : "#dc2626" }} />
-                <stop offset="100%" className={riskLevel === "low" ? "stop-emerald-400" : riskLevel === "moderate" ? "stop-orange-400" : riskLevel === "high" ? "stop-red-400" : "stop-red-500"} style={{ stopColor: riskLevel === "low" ? "#34d399" : riskLevel === "moderate" ? "#fb923c" : riskLevel === "high" ? "#f87171" : "#ef4444" }} />
+                <stop offset="0%" style={{ stopColor: riskLevel === "low" ? "#10b981" : riskLevel === "moderate" ? "#eab308" : riskLevel === "high" ? "#f97316" : "#dc2626" }} />
+                <stop offset="100%" style={{ stopColor: riskLevel === "low" ? "#34d399" : riskLevel === "moderate" ? "#fb923c" : riskLevel === "high" ? "#f87171" : "#ef4444" }} />
               </linearGradient>
             </defs>
           </svg>
