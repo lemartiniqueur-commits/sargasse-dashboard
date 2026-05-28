@@ -5,7 +5,7 @@ import { NoaaDataTable } from "@/components/noaa-data-table";
 import { AlertsPanel } from "@/components/alerts-panel";
 import { CommuneStatus } from "@/components/commune-status";
 import { ErrorBoundary } from "@/components/error-boundary";
-import { TimeSeriesChart } from "@/components/time-series-chart";
+import { TimeSeriesChart } from "@/components/time-series-chart-client";
 import { RealtimeIndicator } from "@/components/realtime-indicator";
 
 export default function DashboardPage() {
