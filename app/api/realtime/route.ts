@@ -88,9 +88,9 @@ export async function GET() {
     // On retourne un indice de risque basé sur les données mock
     const fallbackRiskIndex = calculateSargassumRiskIndex(
       {
-        sst: MOCK.metrics.waterTemperature.value,
-        currentSpeed: MOCK.metrics.currentSpeed.value * 0.514444, // Conversion kt -> m/s
-        currentDirection: null,
+        sst: MOCK.metrics.seaTemp.value,
+        currentSpeed: 0.8, // Valeur estimée en m/s
+        currentDirection: 285,
         timestamp: MOCK.lastUpdated,
         source: "MOCK",
       },
@@ -122,9 +122,9 @@ export async function GET() {
         humidity: 75,
       },
       ocean: {
-        sst: MOCK.metrics.waterTemperature.value,
-        currentSpeed: MOCK.metrics.currentSpeed.value,
-        currentDirection: null,
+        sst: MOCK.metrics.seaTemp.value,
+        currentSpeed: 0.8,
+        currentDirection: 285,
         waveHeight: 1.2,
       },
       error: "Données temps réel indisponibles - mode simulation activé",
