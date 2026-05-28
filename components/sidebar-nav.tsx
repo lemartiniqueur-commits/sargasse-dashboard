@@ -7,9 +7,10 @@ import {
   Clock,
   Globe,
   Gear,
+  type Icon,
 } from "@phosphor-icons/react";
 
-const NAV_ITEMS = [
+const NAV_ITEMS: Array<{ icon: Icon; label: string; active: boolean }> = [
   { icon: Compass, label: "Vue globale", active: true },
   { icon: MapPin, label: "Cartographie", active: false },
   { icon: WarningCircle, label: "Alertes", active: false },
@@ -24,7 +25,7 @@ export function SidebarNav() {
       {/* Brand */}
       <div className="mb-8 flex items-center gap-2 px-2">
         <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-accent/15">
-          <div className="h-2 w-2 rounded-full bg-accent animate-pulse-dot" />
+          <div className="h-2 w-2 rounded-none bg-accent animate-pulse-dot" />
         </div>
         <div>
           <div className="font-mono text-[11px] font-medium uppercase tracking-wider text-zinc-100">
@@ -39,22 +40,21 @@ export function SidebarNav() {
       {/* Navigation items */}
       <div className="flex flex-col gap-0.5">
         {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
+          const NavIcon = item.icon;
           return (
             <button
               key={item.label}
-              className={`flex items-center gap-3 rounded-[6px] px-3 py-2 text-left transition-colors ${
+              className={`flex items-center gap-3 rounded-[6px] px-3 py-2.5 text-left transition-colors ${
                 item.active
                   ? "bg-accent/10 text-accent"
-                  : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+                  : "text-zinc-400 hover:bg-surface-elevated hover:text-zinc-200"
               }`}
             >
-              <Icon
-                size={18}
-                weight={item.active ? "fill" : "regular"}
-                strokeWidth={1.5}
-              />
-              <span className="text-[13px] font-medium">{item.label}</span>
+              <NavIcon size={16} weight={item.active ? "fill" : "regular"} />
+              <span className="font-mono text-xs">{item.label}</span>
+              {item.active && (
+                <span className="ml-auto h-1 w-1 bg-accent" />
+              )}
             </button>
           );
         })}
@@ -62,16 +62,10 @@ export function SidebarNav() {
 
       {/* Bottom section */}
       <div className="mt-auto border-t border-border pt-4">
-        <div className="rounded-[6px] border border-border bg-bg p-3">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-            Station active
-          </div>
-          <div className="mt-1 font-mono text-[11px] text-zinc-300">
-            MQ-ATL-04
-          </div>
-          <div className="mt-0.5 font-mono text-[10px] text-zinc-600">
-            14.64°N 61.02°W
-          </div>
+        <div className="rounded-[6px] border border-border-strong bg-surface-elevated p-3">
+          <p className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 mb-1">Station active</p>
+          <p className="font-mono text-xs font-medium text-zinc-100">MQ-ATL-04</p>
+          <p className="font-mono text-[10px] text-zinc-500 mt-0.5">14.64°N 61.02°W</p>
         </div>
       </div>
     </nav>
