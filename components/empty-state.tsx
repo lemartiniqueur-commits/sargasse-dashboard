@@ -2,7 +2,8 @@ import { Globe } from "@phosphor-icons/react";
 
 interface EmptyStateProps {
   title: string;
-Add components/empty-state.tsx  action?: {
+  message: string;
+  action?: {
     label: string;
     onClick: () => void;
   };
