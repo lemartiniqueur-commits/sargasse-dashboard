@@ -41,102 +41,73 @@ export function AlertsPanel() {
   const alertCount = MOCK.alerts.filter((a) => a.severity === "alert").length;
 
   return (
-    <div className="flex h-screen flex-col border-l border-border bg-surface">
+    <div className="rounded-[6px] border border-border bg-surface flex flex-col">
       {/* Header */}
-      <div className="border-b border-border p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-              Centre d'alertes
-            </div>
-            <h3 className="mt-1 text-base font-medium text-zinc-100">
-              Alertes terrain
-            </h3>
-          </div>
-          <LiveIndicator label="Streaming" />
+      <div className="flex items-center justify-between p-5 border-b border-border">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted">Centre d&apos;alertes</p>
+          <h3 className="text-sm font-semibold text-foreground mt-0.5">Alertes terrain</h3>
         </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <div className="rounded-[6px] border border-border bg-bg p-3">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-critical animate-pulse-dot" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Critiques
-              </span>
+        <div className="flex items-center gap-3">
+          <LiveIndicator />
+          <div className="flex gap-2">
+            <div className="text-center">
+              <div className="font-mono text-[9px] text-muted uppercase">Critiques</div>
+              <div className="font-mono text-lg font-bold text-critical tabular-nums">{criticalCount}</div>
             </div>
-            <div className="mt-1 font-mono text-2xl font-light tabular-nums text-critical">
-              {criticalCount}
-            </div>
-          </div>
-          <div className="rounded-[6px] border border-border bg-bg p-3">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-alert" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Alertes
-              </span>
-            </div>
-            <div className="mt-1 font-mono text-2xl font-light tabular-nums text-alert">
-              {alertCount}
+            <div className="text-center">
+              <div className="font-mono text-[9px] text-muted uppercase">Alertes</div>
+              <div className="font-mono text-lg font-bold text-alert tabular-nums">{alertCount}</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Alerts list */}
-      <div className="flex-1 overflow-y-auto p-3">
-        <div className="flex flex-col gap-2">
-          {MOCK.alerts.map((alert) => {
-            const severityColor =
-              alert.severity === "critical"
-                ? "border-l-critical"
-                : alert.severity === "alert"
-                ? "border-l-alert"
-                : "border-l-zinc-600";
-            const iconColor =
-              alert.severity === "critical"
-                ? "text-critical"
-                : alert.severity === "alert"
-                ? "text-alert"
-                : "text-zinc-400";
-
-            return (
-              <div
-                key={alert.id}
-                className={`rounded-[6px] border border-border border-l-2 ${severityColor} bg-bg p-3 transition-colors hover:bg-surface-elevated`}
-              >
-                <div className="mb-2 flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className={iconColor}>
-                      <SeverityIcon severity={alert.severity} />
-                    </div>
-                    <SeverityLabel severity={alert.severity} />
-                  </div>
-                  <span className="font-mono text-[10px] tabular-nums text-zinc-600">
-                    {alert.timestamp}
-                  </span>
-                </div>
-
-                <div className="mb-1.5 flex items-center gap-1.5">
-                  <MapPin size={11} className="text-zinc-500" />
-                  <span className="text-[13px] font-medium text-zinc-200">
-                    {alert.commune}
-                  </span>
-                <p className="text-[12px] leading-relaxed text-zinc-400">
-                  {alert.message}
-                </p>
-
-                <div className="mt-2 font-mono text-[9px] text-zinc-600">
-                  Source: {alert.source}
-                </div>
+      <div className="flex flex-col divide-y divide-border overflow-y-auto max-h-80">
+        {MOCK.alerts.map((alert) => {
+          const severityColor =
+            alert.severity === "critical"
+              ? "border-l-critical"
+              : alert.severity === "alert"
+              ? "border-l-alert"
+              : "border-l-zinc-600";
+          const iconColor =
+            alert.severity === "critical"
+              ? "text-critical"
+              : alert.severity === "alert"
+              ? "text-alert"
+              : "text-zinc-400";
+          return (
+            <div
+              key={alert.id}
+              className={`flex gap-3 p-4 border-l-2 ${severityColor} hover:bg-surface-elevated transition-colors`}
+            >
+              <div className={`shrink-0 mt-0.5 ${iconColor}`}>
+                <SeverityIcon severity={alert.severity} />
               </div>
-            );
-          })}
-        </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <SeverityLabel severity={alert.severity} />
+                    <span className="font-mono text-[10px] text-muted flex items-center gap-0.5">
+                      <MapPin size={10} />
+                      {alert.commune}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] text-zinc-500 shrink-0">{alert.timestamp}</span>
+                </div>
+                <p className="text-sm text-foreground leading-snug">{alert.message}</p>
+                <p className="font-mono text-[10px] text-zinc-500 mt-1">Source: {alert.source}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Footer */}
-      <div className="border-t border-border p-4">
-        <button className="w-full rounded-[6px] border border-border bg-bg py-2 text-[12px] font-medium text-zinc-400 transition-colors hover:border-border-strong hover:text-zinc-200">
+      <div className="p-3 border-t border-border">
+        <button className="font-mono text-xs text-accent hover:text-accent/80 transition-colors">
           Historique complet →
         </button>
       </div>
