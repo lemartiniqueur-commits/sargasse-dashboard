@@ -1,10 +1,6 @@
 import { MOCK, type Metric } from "@/lib/mock-data";
 import { getStatusTextColor } from "@/lib/utils";
-import {
-  CaretUp,
-  CaretDown,
-  Minus,
-} from "@phosphor-icons/react";
+import { CaretUp, CaretDown, Minus } from "@phosphor-icons/react";
 import { LiveIndicator } from "./live-indicator";
 
 function TrendIcon({ direction }: { direction: Metric["trendDirection"] }) {
@@ -36,30 +32,30 @@ function MetricCard({ label, metric }: MetricCardProps) {
       : "text-zinc-500";
 
   return (
-    <div className="rounded-[6px] border border-border bg-surface p-5">
+    <div className="rounded-[6px] border border-border bg-surface p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
           {label}
         </span>
         {metric.status !== "normal" && (
-          <span
-            className={`font-mono text-[9px] uppercase tracking-wider ${statusColor}`}
-          >
+          <span className={`font-mono text-[9px] font-bold ${statusColor}`}>
             {metric.status === "critical" ? "CRIT" : "ALERT"}
           </span>
         )}
       </div>
 
-      <div className="mt-3 flex items-baseline gap-2">
-        <span className="font-mono text-4xl font-light tabular-nums text-zinc-50 md:text-5xl">
-          {metric.value.toFixed(metric.unit === "kt" || metric.unit === "m/s" || metric.unit === "°C" ? 1 : 0)}
+      <div className="flex items-baseline gap-1">
+        <span className={`font-mono text-2xl font-bold tabular-nums ${statusColor}`}>
+          {metric.value.toFixed(
+            metric.unit === "kt" || metric.unit === "m/s" || metric.unit === "\u00b0C" ? 1 : 0
+          )}
         </span>
         <span className="font-mono text-xs text-zinc-500">{metric.unit}</span>
       </div>
 
-      <div className={`mt-2 flex items-center gap-1 ${trendColor}`}>
+      <div className={`flex items-center gap-1 font-mono text-xs ${trendColor}`}>
         <TrendIcon direction={metric.trendDirection} />
-        <span className="font-mono text-xs tabular-nums">{metric.trend}</span>
+        <span>{metric.trend}</span>
       </div>
     </div>
   );
@@ -67,45 +63,28 @@ function MetricCard({ label, metric }: MetricCardProps) {
 
 export function MetricsHeader() {
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-between">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-            Métriques principales
-          </div>
-          <h2 className="mt-1 text-lg font-medium text-zinc-100">
-            Vue temps réel — Côte atlantique
-          </h2>
+          <p className="text-xs font-mono text-muted uppercase tracking-widest">M\u00e9triques principales</p>
+          <h2 className="text-sm font-semibold text-foreground mt-0.5">Vue temps r\u00e9el \u2014 C\u00f4te atlantique</h2>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <LiveIndicator />
           <div className="text-right">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-              Dernière MAJ
-            </div>
-            <div className="font-mono text-xs tabular-nums text-zinc-400">
-              {MOCK.lastUpdatedDisplay}
-            </div>
+            <p className="font-mono text-[10px] text-zinc-500 uppercase">Derni\u00e8re MAJ</p>
+            <p className="font-mono text-xs text-foreground">{MOCK.lastUpdatedDisplay}</p>
           </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <MetricCard
-          label="Concentration sargasses"
-          metric={MOCK.metrics.sargassumConcentration}
-        />
-        <MetricCard
-          label="Température eau"
-          metric={MOCK.metrics.waterTemperature}
-        />
-        <MetricCard
-          label="Courant marin"
-          metric={MOCK.metrics.currentSpeed}
-        />
-        <MetricCard
-          label="Vent"
-          metric={MOCK.metrics.windSpeed}
-        />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <MetricCard label="Sargasses" metric={MOCK.metrics.sargasseIndex} />
+        <MetricCard label="Temp. mer" metric={MOCK.metrics.seaTemp} />
+        <MetricCard label="Houle" metric={MOCK.metrics.swellHeight} />
+        <MetricCard label="Vent" metric={MOCK.metrics.windSpeed} />
+        <MetricCard label="UV" metric={MOCK.metrics.uvIndex} />
+        <MetricCard label="Qualit\u00e9 air" metric={MOCK.metrics.airQuality} />
       </div>
     </div>
   );
