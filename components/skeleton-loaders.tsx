@@ -56,7 +56,7 @@ export function TableRowSkeleton() {
         <div className="animate-skeleton h-3 w-12 rounded bg-zinc-800" />
       </td>
       <td className="px-5 py-3">
-Add components/skeleton-loaders.tsx      </td>
+        </td>
       <td className="px-5 py-3">
         <div className="animate-skeleton h-3 w-20 rounded bg-zinc-800" />
       </td>
