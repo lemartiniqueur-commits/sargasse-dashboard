@@ -10,6 +10,7 @@ export interface Metric {
 }
 
 export interface Commune {
+  id: string;
   name: string;
   code: string;
   coordinates: { lat: number; lon: number };
@@ -54,24 +55,24 @@ export const MOCK = {
   },
 
   metrics: {
-    sargassumConcentration: {
-      value: 187,
-      unit: "t/km²",
-      trend: "+12.4%",
+    sargasseIndex: {
+      value: 72,
+      unit: "/100",
+      trend: "+8%",
       trendDirection: "up" as const,
-      status: "alert" as const,
+      status: "high" as const,
     },
-    waterTemperature: {
+    seaTemp: {
       value: 28.4,
       unit: "°C",
       trend: "+0.2°C",
       trendDirection: "up" as const,
       status: "normal" as const,
     },
-    currentSpeed: {
-      value: 1.8,
-      unit: "kt",
-      trend: "NW",
+    swellHeight: {
+      value: 1.2,
+      unit: "m",
+      trend: "+0.1m",
       trendDirection: "stable" as const,
       status: "normal" as const,
     },
@@ -82,10 +83,25 @@ export const MOCK = {
       trendDirection: "stable" as const,
       status: "normal" as const,
     },
+    uvIndex: {
+      value: 9,
+      unit: "",
+      trend: "Élevé",
+      trendDirection: "stable" as const,
+      status: "alert" as const,
+    },
+    airQuality: {
+      value: 42,
+      unit: "AQI",
+      trend: "-3",
+      trendDirection: "down" as const,
+      status: "normal" as const,
+    },
   } satisfies Record<string, Metric>,
 
   communes: [
     {
+      id: "97230",
       name: "Trinité",
       code: "97230",
       coordinates: { lat: 14.78, lon: -60.96 },
@@ -95,6 +111,7 @@ export const MOCK = {
       trend: "up" as const,
     },
     {
+      id: "97212",
       name: "Le Robert",
       code: "97212",
       coordinates: { lat: 14.68, lon: -60.93 },
@@ -104,6 +121,7 @@ export const MOCK = {
       trend: "up" as const,
     },
     {
+      id: "97240",
       name: "Le François",
       code: "97240",
       coordinates: { lat: 14.61, lon: -60.90 },
@@ -113,6 +131,7 @@ export const MOCK = {
       trend: "up" as const,
     },
     {
+      id: "97290",
       name: "Le Marin",
       code: "97290",
       coordinates: { lat: 14.47, lon: -60.87 },
@@ -122,6 +141,7 @@ export const MOCK = {
       trend: "stable" as const,
     },
     {
+      id: "97227",
       name: "Sainte-Anne",
       code: "97227",
       coordinates: { lat: 14.43, lon: -60.89 },
@@ -131,6 +151,7 @@ export const MOCK = {
       trend: "down" as const,
     },
     {
+      id: "97200",
       name: "Fort-de-France",
       code: "97200",
       coordinates: { lat: 14.60, lon: -61.07 },
@@ -140,6 +161,7 @@ export const MOCK = {
       trend: "stable" as const,
     },
     {
+      id: "97232",
       name: "Le Lamentin",
       code: "97232",
       coordinates: { lat: 14.61, lon: -61.00 },
