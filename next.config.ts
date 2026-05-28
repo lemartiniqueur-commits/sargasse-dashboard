@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // recharts uses createContext — must be transpiled, not just optimized
+  transpilePackages: ["recharts"],
+
+  experimental: {
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
@@ -33,10 +40,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-
-  experimental: {
-    optimizePackageImports: ["@phosphor-icons/react", "recharts"],
   },
 };
 
