@@ -1,3 +1,5 @@
+"use client";
+
 import { MOCK } from "@/lib/mock-data";
 import { ArrowUpRight, CircleNotch, Archive, Broadcast } from "@phosphor-icons/react";
 

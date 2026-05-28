@@ -1,3 +1,5 @@
+"use client";
+
 import { MOCK } from "@/lib/mock-data";
 import { getStatusColor, getStatusTextColor } from "@/lib/utils";
 import { CaretUp, CaretDown, Minus } from "@phosphor-icons/react";

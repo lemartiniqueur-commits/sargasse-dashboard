@@ -1,3 +1,5 @@
+"use client";
+
 import { MOCK } from "@/lib/mock-data";
 import { getSeverityColor } from "@/lib/utils";
 import {
