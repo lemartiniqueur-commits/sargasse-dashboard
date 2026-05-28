@@ -1,11 +1,22 @@
+import dynamic from "next/dynamic";
 import { SidebarNav } from "@/components/sidebar-nav";
 import { MetricsHeader } from "@/components/metrics-header";
 import { DistributionMap } from "@/components/distribution-map";
-import { TimeSeriesChart } from "@/components/time-series-chart";
 import { NoaaDataTable } from "@/components/noaa-data-table";
 import { AlertsPanel } from "@/components/alerts-panel";
 import { CommuneStatus } from "@/components/commune-status";
 import { ErrorBoundary } from "@/components/error-boundary";
+
+// recharts uses React.createContext — must be loaded client-side only
+const TimeSeriesChart = dynamic(
+  () => import("@/components/time-series-chart").then((m) => m.TimeSeriesChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-[6px] border border-border bg-surface p-5 h-[340px] animate-pulse" />
+    ),
+  }
+);
 
 export default function DashboardPage() {
   return (
@@ -43,46 +54,43 @@ export default function DashboardPage() {
           </section>
 
           {/* Map + Time series */}
-          <section className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-5">
-            <div className="xl:col-span-3">
-              <ErrorBoundary fallbackLabel="Impossible de charger la carte de distribution.">
-                <DistributionMap />
-              </ErrorBoundary>
-            </div>
-            <div className="xl:col-span-2">
-              <ErrorBoundary fallbackLabel="Impossible de charger les données temporelles.">
-                <TimeSeriesChart />
-              </ErrorBoundary>
-            </div>
+          <section className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <ErrorBoundary fallbackLabel="Carte indisponible.">
+              <DistributionMap />
+            </ErrorBoundary>
+            <ErrorBoundary fallbackLabel="Graphique indisponible.">
+              <TimeSeriesChart />
+            </ErrorBoundary>
           </section>
 
           {/* Commune status */}
           <section className="mb-8">
-            <ErrorBoundary fallbackLabel="Impossible de charger le statut des communes.">
+            <ErrorBoundary fallbackLabel="Données communes indisponibles.">
               <CommuneStatus />
             </ErrorBoundary>
           </section>
 
           {/* NOAA data table */}
           <section className="mb-8">
-            <ErrorBoundary fallbackLabel="Impossible de charger les données NOAA.">
+            <ErrorBoundary fallbackLabel="Table NOAA indisponible.">
               <NoaaDataTable />
             </ErrorBoundary>
           </section>
 
           {/* Footer note */}
-          <footer className="border-t border-border pt-4">
-            <p className="font-mono text-[10px] text-zinc-600">
-              Données affichées: mock (simulation) · Sources réelles: NOAA USF
-              Optical Marine Imagery, Open-Meteo Marine API, CMEMS HYCOM
-            </p>
-          </footer>
+          <p className="font-mono text-[10px] text-zinc-600 pb-8">
+            Données affichées: mock (simulation) · Sources réelles: NOAA USF Optical Marine Imagery, Open-Meteo Marine API, CMEMS HYCOM
+          </p>
         </div>
       </main>
 
       {/* Alerts panel — col-span-3 */}
-      <aside className="col-span-12 hidden xl:col-span-3 xl:block">
-        <AlertsPanel />
+      <aside className="col-span-3 hidden lg:block border-l border-border">
+        <div className="p-4 h-full">
+          <ErrorBoundary fallbackLabel="Alertes indisponibles.">
+            <AlertsPanel />
+          </ErrorBoundary>
+        </div>
       </aside>
     </div>
   );
