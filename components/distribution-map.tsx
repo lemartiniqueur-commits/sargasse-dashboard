@@ -42,54 +42,37 @@ export function DistributionMap() {
     <div className="rounded-[6px] border border-border bg-surface p-5">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-            Carte de distribution
-          </div>
-          <h3 className="mt-1 text-base font-medium text-zinc-100">
-            Concentration sargasses — côte est
-          </h3>
+          <p className="text-xs font-mono text-muted uppercase tracking-widest">Carte de distribution</p>
+          <h3 className="text-sm font-semibold text-foreground mt-0.5">Concentration sargasses — côte est</h3>
         </div>
         <LiveIndicator />
       </div>
 
-      <div className="relative">
+      <div className="relative w-full" style={{ paddingBottom: "210%" }}>
         <svg
+          className="absolute inset-0 w-full h-full"
           viewBox="0 0 200 420"
-          className="h-auto w-full max-h-[480px]"
-          aria-label="Carte de la Martinique avec zones de concentration de sargasses"
+          xmlns="http://www.w3.org/2000/svg"
         >
           {/* Gradient de fond */}
           <defs>
-            <radialGradient id="mapGradient" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#111518" />
-              <stop offset="100%" stopColor="#0a0d0f" />
+            <radialGradient id="oceangradient" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stopColor="#0a1628" />
+              <stop offset="100%" stopColor="#060d1a" />
             </radialGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
+          <rect width="200" height="420" fill="url(#oceangradient)" />
 
           {/* Grille de coordonnées */}
-          <g stroke="rgba(255,255,255,0.03)" strokeWidth="0.5">
-            {[50, 100, 150].map((x) => (
-              <line key={`v-${x}`} x1={x} y1="0" x2={x} y2="420" />
-            ))}
-            {[70, 140, 210, 280, 350].map((y) => (
-              <line key={`h-${y}`} x1="0" y1={y} x2="200" y2={y} />
-            ))}
-          </g>
+          {[50, 100, 150].map((x) => (
+            <line key={x} x1={x} y1={0} x2={x} y2={420} stroke="#1a2840" strokeWidth="0.5" />
+          ))}
+          {[70, 140, 210, 280, 350].map((y) => (
+            <line key={y} x1={0} y1={y} x2={200} y2={y} stroke="#1a2840" strokeWidth="0.5" />
+          ))}
 
           {/* Île */}
-          <path
-            d={MARTINIQUE_PATH}
-            fill="#1a2026"
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth="0.8"
-          />
+          <path d={MARTINIQUE_PATH} fill="#1e3a2f" stroke="#2d5a42" strokeWidth="1" />
 
           {/* Zones de concentration (halos) */}
           {MOCK.communes.map((commune) => {
@@ -102,15 +85,14 @@ export function DistributionMap() {
                 : commune.status === "alert"
                 ? "rgba(249, 115, 22, 0.3)"
                 : "rgba(0, 212, 170, 0.15)";
-
             return (
               <circle
-                key={commune.code}
+                key={`halo-${commune.name}`}
                 cx={pos.x}
                 cy={pos.y}
                 r={radius}
                 fill={color}
-                filter="url(#glow)"
+                stroke="none"
               />
             );
           })}
@@ -125,38 +107,19 @@ export function DistributionMap() {
                 : commune.status === "alert"
                 ? "#f97316"
                 : "#00d4aa";
-
             return (
-              <g key={commune.code}>
+              <g key={commune.name}>
                 {/* Pulse ring for critical/alert */}
                 {commune.status !== "normal" && (
-                  <circle
-                    cx={pos.x}
-                    cy={pos.y}
-                    r="4"
-                    fill="none"
-                    stroke={dotColor}
-                    strokeWidth="0.8"
-                    opacity="0.6"
-                    className="animate-pulse-ring"
-                    style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
-                  />
+                  <circle cx={pos.x} cy={pos.y} r={6} fill="none" stroke={dotColor} strokeWidth="1" opacity="0.5" />
                 )}
-                <circle
-                  cx={pos.x}
-                  cy={pos.y}
-                  r="3"
-                  fill={dotColor}
-                  stroke="#0a0d0f"
-                  strokeWidth="1.5"
-                />
+                <circle cx={pos.x} cy={pos.y} r={3} fill={dotColor} />
                 <text
-                  x={pos.x + 6}
-                  y={pos.y + 1}
-                  fill="#a1a1aa"
-                  fontSize="8"
-                  fontFamily="var(--font-geist-mono)"
-                  dominantBaseline="middle"
+                  x={pos.x + 5}
+                  y={pos.y + 4}
+                  fontSize="6"
+                  fill="#94a3b8"
+                  fontFamily="monospace"
                 >
                   {commune.name}
                 </text>
@@ -165,38 +128,25 @@ export function DistributionMap() {
           })}
 
           {/* Échelle */}
-          <g transform="translate(15, 395)">
-            <line x1="0" y1="0" x2="30" y2="0" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-            <line x1="0" y1="-2" x2="0" y2="2" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-            <line x1="30" y1="-2" x2="30" y2="2" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-            <text
-              x="15"
-              y="10"
-              fill="#52525b"
-              fontSize="7"
-              fontFamily="var(--font-geist-mono)"
-              textAnchor="middle"
-            >
-              ~25 km
-      </g>
+          <line x1={10} y1={405} x2={35} y2={405} stroke="#475569" strokeWidth="1" />
+          <text x={10} y={413} fontSize="5" fill="#475569" fontFamily="monospace">~25 km</text>
         </svg>
+      </div>
 
-        {/* Légende */}
-        <div className="mt-4 flex flex-wrap gap-4 border-t border-border pt-3">
-          {[
-            { label: "Normal <100", color: "bg-accent" },
-            { label: "Alerte 100-400", color: "bg-alert" },
-            { label: "Critique >400", color: "bg-critical" },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-1.5">
-              <div className={`h-2 w-2 rounded-full ${item.color}`} />
-              <span className="font-mono text-[10px] text-zinc-500">
-                {item.label}
-              </span>
-              <span className="font-mono text-[9px] text-zinc-600">t/km²</span>
-            </div>
-          ))}
-        </div>
+      {/* Légende */}
+      <div className="mt-4 flex flex-wrap gap-4 border-t border-border pt-3">
+        {[
+          { label: "Normal <100", color: "bg-accent" },
+          { label: "Alerte 100-400", color: "bg-alert" },
+          { label: "Critique >400", color: "bg-critical" },
+        ].map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5">
+            <div className={`w-2 h-2 ${item.color}`} />
+            <span className="text-xs font-mono text-muted">
+              {item.label} <span className="text-foreground/40">t/km²</span>
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
