@@ -65,7 +65,7 @@ export function CommuneStatus() {
                   <div className="text-[13px] font-medium text-zinc-200 group-hover:text-zinc-50">
                     {commune.name}
                   </div>
-Add components/commune-status.tsx                    {commune.code} · {commune.lastUpdate}
+              {commune.code} · {commune.lastUpdate}
                   </div>
                 </div>
               </div>
