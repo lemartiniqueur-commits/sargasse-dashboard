@@ -1,120 +1,156 @@
-"use client";
+'use client';
 
-import { MOCK } from "@/lib/mock-data";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
+import { useState } from 'react';
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: Array<{ value: number; dataKey: string }>;
-  label?: string;
+const SERIES = [
+  {
+    label: 'Sargasses (t/km²)',
+    color: '#a3a832',
+    data: [
+      { date: '01/05', value: 12.4 },
+      { date: '05/05', value: 18.7 },
+      { date: '10/05', value: 24.1 },
+      { date: '15/05', value: 31.6 },
+      { date: '20/05', value: 28.3 },
+      { date: '25/05', value: 35.9 },
+      { date: '28/05', value: 41.2 },
+    ],
+  },
+  {
+    label: 'Temp. surface (°C)',
+    color: '#e85d3a',
+    data: [
+      { date: '01/05', value: 28.1 },
+      { date: '05/05', value: 28.6 },
+      { date: '10/05', value: 29.2 },
+      { date: '15/05', value: 29.8 },
+      { date: '20/05', value: 30.1 },
+      { date: '25/05', value: 29.5 },
+      { date: '28/05', value: 30.4 },
+    ],
+  },
+];
+
+function normalize(values: number[]): number[] {
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  return values.map((v) => (max === min ? 0.5 : (v - min) / (max - min)));
 }
 
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
-  if (!active || !payload || payload.length === 0) return null;
+function buildPath(normalized: number[], w: number, h: number, pad: number): string {
+  const points = normalized.map((n, i) => {
+    const x = pad + (i / (normalized.length - 1)) * (w - 2 * pad);
+    const y = pad + (1 - n) * (h - 2 * pad);
+    return `${x},${y}`;
+  });
+  return `M ${points.join(' L ')}`;
+}
 
-  return (
-    <div className="rounded-[6px] border border-border-strong bg-surface-elevated p-3" style={{ boxShadow: "0 1px 3px rgba(0,210,170,0.05)" }}>
-      <div className="mb-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-        {label}
-      </div>
-      {payload.map((entry) => (
-        <div key={entry.dataKey} className="flex items-center gap-2">
-          <span className="font-mono text-xs text-zinc-400">
-            {entry.dataKey === "concentration" ? "Sargasses" : entry.dataKey}:
-          </span>
-          <span className="font-mono text-sm tabular-nums text-zinc-100">{entry.value}</span>
-          <span className="font-mono text-[10px] text-zinc-500">
-            {entry.dataKey === "concentration" ? "t/km\u00b2" : entry.dataKey === "waterTemp" ? "\u00b0C" : "m/s"}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
+function buildArea(normalized: number[], w: number, h: number, pad: number): string {
+  const line = buildPath(normalized, w, h, pad);
+  const lastX = pad + (w - 2 * pad);
+  const firstX = pad;
+  const baseY = pad + (h - 2 * pad);
+  return `${line} L ${lastX},${baseY} L ${firstX},${baseY} Z`;
 }
 
 export function TimeSeriesChart() {
-  const data = MOCK.timeSeries;
-  const alertThreshold = 100;
-  const criticalThreshold = 400;
+  const [active, setActive] = useState(0);
+  const W = 560;
+  const H = 200;
+  const PAD = 24;
 
   return (
-    <div className="rounded-[6px] border border-border bg-surface p-5">
-      <div className="mb-4 flex items-start justify-between">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted">Évolution 7 jours</p>
-          <h3 className="text-sm font-semibold text-foreground mt-0.5">Concentration sargasses — tendance</h3>
-          <p className="font-mono text-[10px] text-zinc-500 mt-0.5">Données USF Optical Marine Imagery</p>
-        </div>
-        <div className="text-right">
-          <p className="font-mono text-[10px] text-zinc-500 uppercase">Moyenne</p>
-          <p className="font-mono text-base font-bold tabular-nums text-foreground">143.7 t/km²</p>
+    <div className="rounded-[6px] border border-border bg-surface p-4">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="font-mono text-[11px] font-semibold text-zinc-300 tracking-widest uppercase">
+          Séries temporelles — 28 jours
+        </h2>
+        <div className="flex gap-2">
+          {SERIES.map((s, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`font-mono text-[10px] px-2 py-0.5 border ${
+                active === i
+                  ? 'border-zinc-400 text-zinc-200'
+                  : 'border-zinc-700 text-zinc-500'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
         </div>
       </div>
-
-      <ResponsiveContainer width="100%" height={240}>
-        <AreaChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-          <defs>
-            <linearGradient id="concentration-gradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#00d4aa" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="#00d4aa" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2d3d" vertical={false} />
-          <XAxis
-            dataKey="date"
-            tick={{ fontFamily: "monospace", fontSize: 9, fill: "#64748b" }}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            tick={{ fontFamily: "monospace", fontSize: 9, fill: "#64748b" }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `${value}`}
-          />
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={{ stroke: "rgba(255,255,255,0.08)", strokeWidth: 1 }}
-          />
-          <ReferenceLine y={alertThreshold} stroke="#f97316" strokeDasharray="4 4" strokeWidth={1} />
-          <ReferenceLine y={criticalThreshold} stroke="#ef4444" strokeDasharray="4 4" strokeWidth={1} />
-          <Area
-            type="monotone"
-            dataKey="concentration"
-            stroke="#00d4aa"
-            strokeWidth={1.5}
-            fill="url(#concentration-gradient)"
-            dot={false}
-            activeDot={{ r: 3, fill: "#00d4aa", strokeWidth: 0 }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-
-      <div className="mt-3 flex items-center gap-4 border-t border-border pt-3">
-        <div className="flex items-center gap-1.5">
-          <div className="h-px w-4 bg-accent" />
-          <span className="font-mono text-[10px] text-zinc-500">Concentration</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <div className="h-px w-4 border-t border-dashed border-alert" />
-            <span className="font-mono text-[10px] text-zinc-500">Alerte (100)</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className="h-px w-4 border-t border-dashed border-critical" />
-            <span className="font-mono text-[10px] text-zinc-500">Critique (400)</span>
-          </div>
-        </div>
-        <span className="ml-auto font-mono text-[10px] text-zinc-500">Seuils opérationnels</span>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="w-full h-48"
+        aria-label={`Graphique ${SERIES[active].label}`}
+      >
+        {/* Grid lines */}
+        {[0.25, 0.5, 0.75, 1].map((t) => {
+          const y = PAD + (1 - t) * (H - 2 * PAD);
+          return (
+            <line
+              key={t}
+              x1={PAD}
+              y1={y}
+              x2={W - PAD}
+              y2={y}
+              stroke="#3f3f46"
+              strokeWidth="0.5"
+              strokeDasharray="4 4"
+            />
+          );
+        })}
+        {/* Area fill */}
+        <path
+          d={buildArea(
+            normalize(SERIES[active].data.map((d) => d.value)),
+            W,
+            H,
+            PAD
+          )}
+          fill={SERIES[active].color}
+          fillOpacity={0.12}
+        />
+        {/* Line */}
+        <path
+          d={buildPath(
+            normalize(SERIES[active].data.map((d) => d.value)),
+            W,
+            H,
+            PAD
+          )}
+          fill="none"
+          stroke={SERIES[active].color}
+          strokeWidth="1.5"
+        />
+        {/* Data points + labels */}
+        {SERIES[active].data.map((d, i) => {
+          const norm = normalize(SERIES[active].data.map((p) => p.value));
+          const x = PAD + (i / (SERIES[active].data.length - 1)) * (W - 2 * PAD);
+          const y = PAD + (1 - norm[i]) * (H - 2 * PAD);
+          return (
+            <g key={i}>
+              <circle cx={x} cy={y} r={3} fill={SERIES[active].color} />
+              <text
+                x={x}
+                y={H - 6}
+                textAnchor="middle"
+                fontSize={8}
+                fill="#71717a"
+                fontFamily="monospace"
+              >
+                {d.date}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+      <div className="mt-2 flex justify-between font-mono text-[9px] text-zinc-600">
+        <span>Source: NOAA SARGASSUM WATCH SYSTEM</span>
+        <span>Simulation mock — mai 2025</span>
       </div>
     </div>
   );
