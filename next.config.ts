@@ -68,7 +68,7 @@ const nextConfig: NextConfig = {
     ],
     serverActions: {
       bodySizeLimit: "1mb",
-Add next.config.ts    scrollRestoration: true,
+      scrollRestoration: true,
   },
 
   // --- Webpack customizations ---
