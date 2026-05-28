@@ -5,7 +5,7 @@ import { NoaaDataTable } from "@/components/noaa-data-table";
 import { AlertsPanel } from "@/components/alerts-panel";
 import { CommuneStatus } from "@/components/commune-status";
 import { ErrorBoundary } from "@/components/error-boundary";
-import { TimeSeriesChart } from "@/components/time-series-chart-client";
+import { TimeSeriesChart } from "@/components/time-series-chart";
 
 export default function DashboardPage() {
   return (
@@ -54,7 +54,7 @@ export default function DashboardPage() {
 
         {/* Footer note */}
         <p className="font-mono text-[10px] text-zinc-600 pb-8">
-          Donn&#233;es affich&#233;es: mock (simulation) &middot; Sources r&#233;elles: NOAA USF Optical Marine Imagery, OpenMeteo, DEAL Martinique
+          Données affichées: mock (simulation) · Sources réelles: NOAA USF Optical Marine Imagery, OpenMeteo, DEAL Martinique
         </p>
       </main>
 
