@@ -178,7 +178,7 @@ export function DistributionMap() {
               textAnchor="middle"
             >
               ~25 km
-Add components/distribution-map.tsx          </g>
+      </g>
         </svg>
 
         {/* Légende */}
