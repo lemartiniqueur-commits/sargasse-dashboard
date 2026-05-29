@@ -5,7 +5,8 @@ import { NoaaDataTable } from "@/components/noaa-data-table";
 import { AlertsPanel } from "@/components/alerts-panel";
 import { CommuneStatus } from "@/components/commune-status";
 import { ErrorBoundary } from "@/components/error-boundary";
-import { TimeSeriesChart } from "@/components/time-series-chart";
+import { TimeSeriesChart } from "@/components/time-series-chart-client";
+import { RealtimeIndicator } from "@/components/realtime-indicator";
 
 export default function DashboardPage() {
   return (
@@ -17,6 +18,11 @@ export default function DashboardPage() {
 
       {/* Main content — col-span-7 */}
       <main className="col-span-7 overflow-y-auto p-6 space-y-6">
+        {/* Realtime Indicator - En haut du dashboard */}
+        <section>
+          <RealtimeIndicator />
+        </section>
+
         {/* Metrics header */}
         <section>
           <ErrorBoundary fallbackLabel="Metriques indisponibles.">

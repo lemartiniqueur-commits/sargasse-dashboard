@@ -1,3 +1,5 @@
+"use client";
+
 import { MOCK } from "@/lib/mock-data";
 import { getStatusColor } from "@/lib/utils";
 import { LiveIndicator } from "./live-indicator";
