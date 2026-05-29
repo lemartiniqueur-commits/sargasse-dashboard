@@ -68,13 +68,13 @@ export function MetricsHeader() {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-mono text-muted uppercase tracking-widest">M\u00e9triques principales</p>
-          <h2 className="text-sm font-semibold text-foreground mt-0.5">Vue temps r\u00e9el \u2014 C\u00f4te atlantique</h2>
+          <p className="text-xs font-mono text-muted uppercase tracking-widest">Métriques principales</p>
+          <h2 className="text-sm font-semibold text-foreground mt-0.5">Vue temps réel — Côte atlantique</h2>
         </div>
         <div className="flex items-center gap-3">
           <LiveIndicator />
           <div className="text-right">
-            <p className="font-mono text-[10px] text-zinc-500 uppercase">Derni\u00e8re MAJ</p>
+            <p className="font-mono text-[10px] text-zinc-500 uppercase">Dernière MAJ</p>
             <p className="font-mono text-xs text-foreground">{MOCK.lastUpdatedDisplay}</p>
           </div>
         </div>
@@ -86,7 +86,7 @@ export function MetricsHeader() {
         <MetricCard label="Houle" metric={MOCK.metrics.swellHeight} />
         <MetricCard label="Vent" metric={MOCK.metrics.windSpeed} />
         <MetricCard label="UV" metric={MOCK.metrics.uvIndex} />
-        <MetricCard label="Qualit\u00e9 air" metric={MOCK.metrics.airQuality} />
+        <MetricCard label="Qualité air" metric={MOCK.metrics.airQuality} />
       </div>
     </div>
   );
